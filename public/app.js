@@ -1,3 +1,5 @@
+import { getForecast } from './skycast-client.js';
+
 const form = document.getElementById('trip-form');
 const citySelect = document.getElementById('city');
 const forecastEl = document.getElementById('forecast');
@@ -16,9 +18,7 @@ form.addEventListener('submit', async (event) => {
   render('<span class="spinner"></span> Loading forecast…', 'muted');
 
   try {
-    const res = await fetch(`/api/forecast?city=${encodeURIComponent(citySelect.value)}`);
-    if (!res.ok) throw new Error();
-    const data = await res.json();
+    const data = await getForecast(citySelect.value);
 
     const days = data.forecast
       .map(
@@ -28,7 +28,8 @@ form.addEventListener('submit', async (event) => {
       )
       .join('');
     render(`<p>${escapeHtml(data.location.name)}, ${escapeHtml(data.location.country)}</p><ul class="days">${days}</ul>`, 'ok');
-  } catch {
+  } catch (err) {
+    console.error('Failed to load forecast:', err.message);
     render('Something went wrong. Please try again later.', 'error');
   }
 });

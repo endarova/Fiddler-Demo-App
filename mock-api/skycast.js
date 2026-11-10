@@ -13,8 +13,15 @@ const FORECASTS = {
   tokyo: { name: 'Tokyo', country: 'JP', days: [[18, 11, 'Sunny'], [17, 12, 'Cloudy'], [19, 13, 'Sunny']] },
 };
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Authorization, Accept',
+  'Access-Control-Expose-Headers': 'WWW-Authenticate, X-Request-Id',
+};
+
 function send(res, status, body, headers = {}) {
   res.writeHead(status, {
+    ...CORS_HEADERS,
     'Content-Type': 'application/json; charset=utf-8',
     'X-Request-Id': `req_${randomUUID().slice(0, 12)}`,
     'X-RateLimit-Limit': '1000',
@@ -46,6 +53,10 @@ function authenticate(req, res) {
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host ?? 'localhost'}`);
 
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, { ...CORS_HEADERS, 'Access-Control-Allow-Methods': 'GET', 'Access-Control-Max-Age': '600' });
+    return res.end();
+  }
   if (req.method !== 'GET' || url.pathname !== '/v1/forecast') {
     return send(res, 404, { error: 'not_found', message: 'Unknown endpoint.' });
   }
