@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trip Planner</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Trip Planner</h1>
+      <p class="muted">Plan your next trip with a live 3-day forecast powered by SkyCast.</p>
+    </header>
+
+    <form id="trip-form" class="card">
+      <label for="city">Destination</label>
+      <div class="row">
+        <select id="city" name="city">
+          <option>Sofia</option>
+          <option>London</option>
+          <option>Cape Town</option>
+          <option>New York</option>
+          <option>Tokyo</option>
+        </select>
+        <button type="submit">Check forecast</button>
+      </div>
+    </form>
+
+    <section class="card">
+      <h2>Forecast</h2>
+      <div id="forecast" class="muted">Choose a destination and click “Check forecast”.</div>
+    </section>
+  </main>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
