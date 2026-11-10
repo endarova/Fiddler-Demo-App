@@ -6,7 +6,7 @@ export async function getForecast(city) {
   const response = await fetch(url, {
     headers: {
       Accept: 'application/json',
-      Authorization: SKYCAST_API_KEY,
+      Authorization: `Bearer ${SKYCAST_API_KEY}`,
     },
   });
 
