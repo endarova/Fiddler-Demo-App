@@ -6,7 +6,7 @@ The demo follows three steps: **Understand**, **Reproduce** and **Resolve**. It 
 
 ## 0. Pre-flight (off camera)
 
-1. Start Fiddler Everywhere, sign in and turn on **Network Capture**. The app doesn't use any proxy settings, so Network Capture is what picks up its server-side call to SkyCast.
+1. Start Fiddler Everywhere and sign in. Confirm that it listens on `127.0.0.1:8866` (**Settings → Connections**).
 2. Enable the Fiddler MCP server (**Settings → MCP Server**) and confirm that your coding agent (VS Code Copilot / Claude Code / Cursor) lists the Fiddler tools.
    - In VS Code, open the Copilot Chat tools picker and confirm that `fiddler` tools such as `get_sessions`, `get_session_details` and `apply_filters` are enabled.
 3. Reset the repo to the broken state:
@@ -14,12 +14,11 @@ The demo follows three steps: **Understand**, **Reproduce** and **Resolve**. It 
    git checkout main && git checkout -- .
    ```
 4. Terminal 1, kept off-screen or minimized: `npm run api`
-5. Terminal 2: `npm run app`
-6. In Fiddler, clear all sessions.
+5. Terminal 2: `npm run app:fiddler`
+6. In Fiddler, clear all sessions. Turning off system-proxy capture is optional and reduces noise. The app sends its traffic straight to `:8866`, so it is captured either way.
 7. Open `http://localhost:3000` in the browser.
-8. Do a dry run: click **Check forecast** and confirm that a `/v1/forecast` session appears in Fiddler.
 
-> **If the localhost call doesn't show up:** Network Capture may not see loopback traffic. Point the app at your machine's LAN IP instead. Set `SKYCAST_BASE_URL=http://<your-LAN-IP>:4001` in `.env` and restart `npm run app`. The mock already listens on all interfaces. Use the same host in the filters below.
+> **Why `app:fiddler`?** Node.js ignores the macOS system proxy. The script sets `HTTP_PROXY=http://127.0.0.1:8866`, so the app's server-side call to SkyCast goes through Fiddler. When you narrate this, say: *"I start the app with its outbound traffic going through Fiddler."* Don't turn it into a setup tutorial.
 
 ---
 
@@ -107,7 +106,7 @@ Expected diff in [server/skycast-client.js](server/skycast-client.js):
 +      Authorization: `Bearer ${API_KEY}`,
 ```
 
-Review the diff on camera and accept it. Restart Terminal 2 with `Ctrl+C`, then `npm run app`.
+Review the diff on camera and accept it. Restart Terminal 2 with `Ctrl+C`, then `npm run app:fiddler`.
 
 **Takeaway:** Fiddler gave the agent trustworthy evidence, so the agent made the right fix.
 
@@ -159,10 +158,10 @@ Review the diff on camera and accept it. Restart Terminal 2 with `Ctrl+C`, then 
 | # | Item | Where |
 | --- | --- | --- |
 | 1 | Sample app and repo | README, folder tour |
-| 2 | Run locally | `npm run api`, `npm run app` |
+| 2 | Run locally | `npm run api`, `npm run app:fiddler` |
 | 3 | Broken version | `main`, `server/skycast-client.js` |
 | 4 | Trigger action | Sofia → **Check forecast** |
-| 5 | Fiddler capture setup | Pre-flight, Network Capture |
+| 5 | Fiddler capture setup | Pre-flight, `HTTP_PROXY` → `:8866` |
 | 6 | Filter used | `/v1/forecast` or `localhost:4001` |
 | 7 | Fields to inspect | URL, 401, request `Authorization`, response `WWW-Authenticate`, body |
 | 8 | Replay and edit | Composer, add `Bearer ` |

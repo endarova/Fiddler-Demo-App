@@ -7,7 +7,7 @@ SkyCast runs locally as a mock ([mock-api/skycast.js](mock-api/skycast.js)) so t
 ## Requirements
 
 - Node.js 20.6 or later. No `npm install` step is needed because the app has no dependencies.
-- Fiddler Everywhere with **Network Capture** enabled. The app doesn't need any proxy settings.
+- Fiddler Everywhere listening on its default port, `8866`.
 
 ## Run
 
@@ -15,8 +15,8 @@ SkyCast runs locally as a mock ([mock-api/skycast.js](mock-api/skycast.js)) so t
 # Terminal 1: the "third-party" API (keep this terminal off-screen)
 npm run api
 
-# Terminal 2: the app
-npm run app
+# Terminal 2: the app, with outbound calls routed through Fiddler
+npm run app:fiddler      # or `npm run app` to run without Fiddler
 
 open http://localhost:3000
 ```
@@ -27,6 +27,7 @@ open http://localhost:3000
 | --- | --- |
 | [server/skycast-client.js](server/skycast-client.js) | AI-generated API client. **The bug is here.** |
 | [server/index.js](server/index.js) | Serves the UI and `/api/forecast`, and hides the upstream error behind a generic 502 |
+| [server/http.js](server/http.js) | Small HTTP helper that honors `HTTP_PROXY` so Fiddler can capture server-side calls |
 | [public/](public) | Front end |
 | [mock-api/skycast.js](mock-api/skycast.js) | SkyCast mock. It requires `Authorization: Bearer <key>` |
 
