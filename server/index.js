@@ -44,6 +44,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  const via = process.env.HTTP_PROXY ? ` (outbound via ${process.env.HTTP_PROXY})` : '';
-  console.log(`Trip Planner running on http://localhost:${PORT}${via}`);
+  console.log(`Trip Planner running on http://localhost:${PORT}`);
 });

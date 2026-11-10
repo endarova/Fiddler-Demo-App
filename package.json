@@ -9,7 +9,6 @@
   },
   "scripts": {
     "api": "node mock-api/skycast.js",
-    "app": "node --env-file=.env server/index.js",
-    "app:fiddler": "HTTP_PROXY=http://127.0.0.1:8866 node --env-file=.env server/index.js"
+    "app": "node --env-file=.env server/index.js"
   }
 }
