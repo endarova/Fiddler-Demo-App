@@ -136,8 +136,9 @@ Review the diff on camera and accept it. Reload the page in the Fiddler browser.
 4. Optional: select the failed and successful sessions → right-click → **Compare** to show the header difference side by side.
 5. Optional MCP validation prompt:
    ```text
-   Using Fiddler, confirm the latest /v1/forecast request succeeded (comparing the headers is not possiblwe by default here because fiddler mcp sanitizes the ouput for senzitive data befor sending it to the coding agent so the token is not visible fo rthe agent. But if we want to show that too we need to disable asnitization in teh fiddler app settings: **Settings → Sanitization ->uncheck: Sanitize mcp output**)
+   Using Fiddler, confirm the latest /v1/forecast request succeeded 
    ```
+(Comparing the headers is not possible by default here because Fiddler MCP sanitizes the output for sensitive data before sending it to the coding agent, so the token is not visible to the agent. But if we want to show that too, we need to disable sanitization in the Fiddler app settings:: **Settings → Sanitization ->uncheck: Sanitize mcp output**)
 
 **Takeaway:** Runtime evidence verifies the fix. You don't have to assume the code change worked.
 
