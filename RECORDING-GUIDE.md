@@ -4,7 +4,7 @@ The demo follows three steps: **Understand**, **Reproduce** and **Resolve**. It 
 
 ---
 
-## 0. Pre-flight (off camera)
+## 0. Pre-flight
 
 1. Start Fiddler Everywhere and sign in.
 2. Enable the Fiddler MCP server (**Settings → MCP Server**) and confirm that your coding agent (VS Code Copilot / Claude Code / Cursor) lists the Fiddler tools.
