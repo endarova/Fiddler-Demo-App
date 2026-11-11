@@ -11,6 +11,7 @@ const STATIC_FILES = {
   '/skycast-client.js': ['skycast-client.js', 'text/javascript; charset=utf-8'],
   '/config.js': ['config.js', 'text/javascript; charset=utf-8'],
   '/styles.css': ['styles.css', 'text/css; charset=utf-8'],
+  '/favicon.svg': ['favicon.svg', 'image/svg+xml'],
 };
 
 const server = http.createServer(async (req, res) => {
